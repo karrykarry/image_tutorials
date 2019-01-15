@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+	
+	<node name="gray_image" pkg="image_tutorials" type="convert2gray" output="screen" >
+        <param name="input_image" value="tsukuba2.png" />
+        <param name="min_num" value="220" />
+        <param name="max_num" value="220" />
+	</node>
+	
+</launch>
+
