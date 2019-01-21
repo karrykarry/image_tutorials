@@ -18,10 +18,19 @@ int main(int argc, char* argv[])
 
 	cout<<"-----change gray----" <<endl;
 
+  ros::Rate rate(1);
+
 	Gray gray(n,priv_nh);
+	
+	while(ros::ok()){
 	gray.process();
 
-	ros::spin();
+    ros::spinOnce();
+    rate.sleep();
+	
+	}
+	// gray.process();
+	// ros::spin();
 
     return 0;
 }

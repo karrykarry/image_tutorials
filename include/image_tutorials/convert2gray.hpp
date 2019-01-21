@@ -17,18 +17,20 @@
 
 static const std::string OPENCV_WINDOW = "Image window";
 static const std::string OPENCV_WINDOWS = "Gray window";
+#define cell_filter 30
 
 using namespace std;
 
 class Gray{
 
 	private:
+		ros::Publisher map_pub;
 		cv::Mat input_image;
 		cv::Mat gray_image;
 		cv::Mat edge_image;
 		string input_path;
 		double min,max;
-		float width,height,R;
+		float R;
 
 		nav_msgs::OccupancyGrid grid_map;
 	
