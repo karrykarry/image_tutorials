@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(image_tutorials)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  cv_bridge
+  image_transport
   tf
 )
 
@@ -23,8 +25,17 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 
 
-find_package(Boost REQUIRED COMPONENTS system)
+# find_package(Boost REQUIRED COMPONENTS system)
 find_package(OpenCV 3 REQUIRED)
+
+# find_package(OpenCV REQUIRED
+# 	NO_MODULE # should be optional, tells CMake to use config mode
+# 	PATHS /usr/local # look here
+# 	NO_DEFAULT_PATH) # and don't look anywhere else
+# )
+
+
+
 find_package(PCL 1.8.0 REQUIRED)
 find_package(OpenMP)
 if(OPENMP_FOUND)
@@ -118,7 +129,7 @@ endif()
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+ INCLUDE_DIRS include
 #  LIBRARIES image_tutorials
 #  CATKIN_DEPENDS dynamic_reconfigure geometry_msgs message_filters nav_msgs roscpp rospy sensor_msgs std_msgs tf
 #  DEPENDS system_lib
@@ -165,6 +176,20 @@ target_link_libraries(convert2gray
     # ${PCL_LIBRARIES}
   	${OpenCV_LIBRARIES}
 )
+
+add_executable(sift_cam node/sift_node.cpp src/sift_cam.cpp)
+target_link_libraries(sift_cam
+    ${catkin_LIBRARIES}
+    # ${PCL_LIBRARIES}
+  	${OpenCV_LIBRARIES}
+)
+
+add_executable(optical_flow_test node/optical_flow_node.cpp src/optical_flow_test.cpp)
+target_link_libraries(optical_flow_test
+    ${catkin_LIBRARIES}
+  	${OpenCV_LIBRARIES}
+)
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
